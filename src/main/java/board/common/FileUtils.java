@@ -1,20 +1,22 @@
 package board.common;
 
-import java.io.File;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import board.board.dto.BoardFileDto;
+import board.board.entity.BoardFileEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import board.board.dto.BoardFileDto;
-import board.board.entity.BoardFileEntity;
-import lombok.extern.slf4j.Slf4j;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -29,7 +31,8 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-    	String path = "c:\\springboot\\study\\files\\"+current.format(format);
+		String path = "images/"+current.format(format);
+
     	log.debug("upload path: " + path);
     	File file = new File(path);
 		if(file.exists() == false){
@@ -72,7 +75,12 @@ public class FileUtils {
 					fileList.add(boardFile);
 					
 					file = new File(path + "/" + newFileName);
-					multipartFile.transferTo(file);
+					//multipartFile.transferTo(file);
+					try (OutputStream os = new FileOutputStream(file)) {
+						os.write(multipartFile.getBytes());
+					} catch (IOException e) {
+						throw new IOException("파일 저장 중 오류가 발생했습니다.", e);
+					}
 				}
 			}
 		}
@@ -88,8 +96,7 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-    	String path = "c:\\springboot\\study\\files\\"+current.format(format);
-    	//String path = "images/"+current.format(format);
+    	String path = "images/"+current.format(format);
     	File file = new File(path);
 		if(file.exists() == false){
 			file.mkdirs();
@@ -131,7 +138,12 @@ public class FileUtils {
 					fileList.add(boardFile);
 					
 					file = new File(path + "/" + newFileName);
-					multipartFile.transferTo(file);
+					//multipartFile.transferTo(file);
+					try (OutputStream os = new FileOutputStream(file)) {
+						os.write(multipartFile.getBytes());
+					} catch (IOException e) {
+						throw new IOException("파일 저장 중 오류가 발생했습니다.", e);
+					}
 				}
 			}
 		}

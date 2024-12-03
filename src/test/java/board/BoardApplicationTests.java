@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class BoardApplicationTests {
-
+/*
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
@@ -19,4 +19,5 @@ class BoardApplicationTests {
 	public void testSqlSession() throws Exception {
 		System.out.println(sqlSession.toString());
 	}
+ */
 }

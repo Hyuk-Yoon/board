@@ -31,12 +31,18 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-		String path = "images/"+current.format(format);
+		String path = "images" + File.separator + current.format(format);
 
     	log.debug("upload path: " + path);
-    	File file = new File(path);
-		if(file.exists() == false){
-			file.mkdirs();
+		File file = new File(path);
+		if (!file.exists()) {
+			if (file.mkdirs()) {
+				log.debug("Directory created: " + file.getAbsolutePath());
+			} else {
+				log.debug("Failed to create directory: " + file.getAbsolutePath());
+			}
+		} else {
+			log.debug("Directory already exists: " + file.getAbsolutePath());
 		}
 		
 		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
@@ -96,10 +102,17 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-    	String path = "images/"+current.format(format);
-    	File file = new File(path);
-		if(file.exists() == false){
-			file.mkdirs();
+		String path = "images" + File.separator + current.format(format);
+
+		File file = new File(path);
+		if (!file.exists()) {
+			if (file.mkdirs()) {
+				log.debug("Directory created: " + file.getAbsolutePath());
+			} else {
+				log.debug("Failed to create directory: " + file.getAbsolutePath());
+			}
+		} else {
+			log.debug("Directory already exists: " + file.getAbsolutePath());
 		}
 		
 		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();

@@ -23,8 +23,8 @@ import java.util.List;
 @Slf4j
 public class FileUtils {
 
-	@Value("${spring.profiles.active:default}")
-	private String activeProfile;
+	@Value("${board.upload.dir}")
+	private String uploadDir;
 	
 	public List<BoardFileDto> parseFileInfo(int boardIdx, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
 		if(ObjectUtils.isEmpty(multipartHttpServletRequest)){
@@ -35,11 +35,7 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-		String path = null;
-		if(activeProfile.equals("production"))
-			path = "/home/opc/src/board/images" + File.separator + current.format(format);
-		else
-			path = "images" + File.separator + current.format(format);
+		String path = uploadDir + File.separator + current.format(format);
 
     	log.debug("upload path: " + path);
 		File file = new File(path);
@@ -110,11 +106,7 @@ public class FileUtils {
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd"); 
     	ZonedDateTime current = ZonedDateTime.now();
-		String path = null;
-		if(activeProfile.equals("production"))
-			path = "/home/opc/src/board/images" + File.separator + current.format(format);
-		else
-			path = "images" + File.separator + current.format(format);
+		String path = uploadDir + File.separator + current.format(format);
 
 		File file = new File(path);
 		if (!file.exists()) {
